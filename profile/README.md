@@ -12,11 +12,18 @@ We're broadly interested in two areas: **chromatin and gene regulation**, and **
 
 | Repo | What it is |
 |---|---|
-| [`lab-tutorials`](../../lab-tutorials) | Onboarding, tutorials, and lab computing conventions — **start here** |
+| [`lab-tutorials`](../../lab-tutorials) | Onboarding and bioinformatics tutorials — **start here** |
 | [`lab-tools`](../../lab-tools) | Shared scripts and utilities (genomics, analysis, plotting) |
 | [`project-template`](../../project-template) | Template for starting a new analysis or paper project |
 
 Code for individual publications lives in its own repo — see below.
+
+## Wet-lab protocols
+
+Our experimental protocols live on **protocols.io**, where they're versioned, citable, and easy to share:
+
+- 🧪 [Gahan Lab on protocols.io](https://www.protocols.io/) *(replace with our workspace/group link)*
+
 
 ## Paper repositories
 
@@ -24,13 +31,13 @@ Each publication gets its own repo, named `year-firstauthor-keyword`, archived o
 
 | Paper | Repo | DOI |
 |---|---|---|
-| Suárez Ara et al. 2026, *Journal* | [`2026-suarezara-ezh_polycomb`](../../2026-suarezara-keyword) | [10.xxxx/zenodo.xxx](https://doi.org) |
+| Suárez Ara et al. 2026, *Journal* | [`2026-suarezara-ezh-polycomb`](../../2026-suarezara-ezh-polycomb) | [10.xxxx/zenodo.xxx](https://doi.org) |
 
 ## For lab members
 
 - **New to the lab?** Start with the [tutorials](../../lab-tutorials).
 - **Starting a project?** Click "Use this template" on [`project-template`](../../project-template).
-- **Conventions:** every repo has a README, make sure to report conda environment setups, and do not put raw data or large sequencing files.
+- **Conventions:** every repo has a README, pin and report your conda environment, and never commit raw data or large sequencing files.
 
 ## For visitors
 
