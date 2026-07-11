@@ -8,16 +8,6 @@ We're broadly interested in two areas: **chromatin and gene regulation**, and **
 
 ---
 
-## What's in this organisation
-
-| Repo | What it is |
-|---|---|
-| [`lab-tutorials`](../../lab-tutorials) | Onboarding and bioinformatics tutorials — **start here** |
-| [`lab-tools`](../../lab-tools) | Shared scripts and utilities (genomics, analysis, plotting) |
-| [`project-template`](../../project-template) | Template for starting a new analysis or paper project |
-
-Code for individual publications lives in its own repo — see below.
-
 ## Wet-lab protocols
 
 Our experimental protocols live on **protocols.io**, where they're versioned, citable, and easy to share:
@@ -33,12 +23,10 @@ Each publication gets its own repo, named `year-firstauthor-keyword`, archived o
 |---|---|---|
 | Suárez Ara et al. 2026, *Journal* | [`2026-suarezara-ezh-polycomb`](../../2026-suarezara-ezh-polycomb) | [10.xxxx/zenodo.xxx](https://doi.org) |
 
-## For lab members
-
-- **New to the lab?** Start with the [tutorials](../../lab-tutorials).
-- **Starting a project?** Click "Use this template" on [`project-template`](../../project-template).
-- **Conventions:** every repo has a README, pin and report your conda environment, and never commit raw data or large sequencing files.
-
 ## For visitors
 
 Feel free to browse and reuse our code — most is MIT licensed. If you use something in your own work, please cite the associated paper (see each repo's "How to cite" section). Questions or spotted a bug? Open an issue on the relevant repo.
+
+## Lab members
+
+Onboarding docs, tutorials, and internal tools are in our private [`GahanLab`](https://github.com/GahanLab/GahanLab) repo — ask James or a current lab member for access.
