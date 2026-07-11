@@ -29,4 +29,4 @@ Feel free to browse and reuse our code — most is MIT licensed. If you use some
 
 ## Lab members
 
-Onboarding docs, tutorials, and internal tools are in our private [`GahanLab`](https://github.com/GahanLab/GahanLab) repo — ask James or a current lab member for access.
+Onboarding docs, tutorials, and internal tools are in our private [`GahanLab_Internal`](https://github.com/GahanLab/GahanLab_Internal) repo — ask James or a current lab member for access.
