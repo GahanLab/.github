@@ -8,6 +8,12 @@ We're broadly interested in two areas: **chromatin and gene regulation**, and **
 
 ---
 
+## Lab members
+
+Onboarding docs, tutorials, and internal tools are in our private [`GahanLab_Internal`](https://github.com/GahanLab/GahanLab_Internal) repo — ask James or a current lab member for access.
+
+---
+
 ## Wet-lab protocols
 
 Our experimental protocols live on **protocols.io**, where they're versioned, citable, and easy to share:
@@ -26,7 +32,3 @@ Each publication gets its own repo, named `year-firstauthor-keyword`, archived o
 ## For visitors
 
 Feel free to browse and reuse our code — most is MIT licensed. If you use something in your own work, please cite the associated paper (see each repo's "How to cite" section). Questions or spotted a bug? Open an issue on the relevant repo.
-
-## Lab members
-
-Onboarding docs, tutorials, and internal tools are in our private [`GahanLab_Internal`](https://github.com/GahanLab/GahanLab_Internal) repo — ask James or a current lab member for access.
