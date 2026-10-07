@@ -110,7 +110,8 @@ What this means in practice:
 
 Because this folder is shared and easy to dump things into, it is included in the periodic scratch purge — **don't use it as long-term storage**, only as a handoff point.
 
-**DO NOT RUN TASKS DIRECTLY IN THE SHARED FOLDER!**
+### **DO NOT RUN TASKS DIRECTLY IN THE SHARED FOLDER!**
+
 ---
 
 ## 4. Requesting / Creating a New Account
@@ -118,6 +119,7 @@ Because this folder is shared and easy to dump things into, it is included in th
 Only a small number of people have admin access, specifically so that new accounts get set up correctly and consistently across *every* drive (home, scratch, and both project volumes).
 
 If you need an account, contact an admin directly — don't create one yourself even if you have sudo on your own machine.
+
 ---
 
 ## 5. Slurm Job Scheduler
@@ -216,7 +218,7 @@ Apptainer is installed, so Docker and Singularity container images can be used d
 - **Move results out of scratch once you're done** — it gets purged periodically (potentially without notice), and it's shared, so don't let it fill up with old runs.
 - **Set `--mem` explicitly** rather than relying on the 200GB default — it's often more than your job needs and ties up memory other people could use.
 - **Only use `max` if you've cleared it with an admin** — it's gated to `hpc_max_users` for a reason.
-- **Don't delete other people's files in `/scratch/public_share`** — you can't anyway (sticky bit), but if something there genuinely needs removing, ask an admin.
+- **Don't delete other people's files in `/scratch/shared`** — you can't anyway (sticky bit), but if something there genuinely needs removing, ask an admin.
 
 ---
 
@@ -225,8 +227,6 @@ Apptainer is installed, so Docker and Singularity container images can be used d
 This system is new and still being tuned as real workloads hit it. If you:
 - hit a wall you don't understand (permissions, quotas, job failures),
 - think a partition limit, memory default, or purge policy should change, or
-- have suggestions for how this manual or the setup could be improved,
+- have suggestions for how this manual or the setup could be improved, tell me please. Policies here (purge timing, partition limits, `max` access) are expected to be adjusted as actual usage patterns become clear.
 
-tell me please. Policies here (purge timing, partition limits, `max` access) are expected to be adjusted as actual usage patterns become clear.
-
-
+:)
