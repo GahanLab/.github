@@ -10,7 +10,7 @@ We're broadly interested in two areas: **chromatin and gene regulation**, and **
 
 ## Lab server usage
 
-Usage docs for using the lab server inlcuding login, job scechdualer, storage etc. is avaible [here](). This is a working document so please feel free to suggest imporvements etc.
+Usage docs for using the lab server inlcuding login, job scechdualer, storage etc. is avaible [here](https://github.com/GahanLab/.github/blob/main/profile/Lab_Server_Usage_Manual.md). This is a working document so please feel free to suggest imporvements etc.
 
 
 
