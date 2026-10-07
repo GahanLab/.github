@@ -8,6 +8,14 @@ We're broadly interested in two areas: **chromatin and gene regulation**, and **
 
 ---
 
+## Lab server usage
+
+Usage docs for using the lab server inlcuding login, job scechdualer, storage etc. is avaible [here](). This is a working document so please feel free to suggest imporvements etc.
+
+
+
+---
+
 ## Lab members
 
 Onboarding docs, tutorials, and internal tools are in our private [`GahanLab_Internal`](https://github.com/GahanLab/GahanLab_Internal) repo — ask James or a current lab member for access.
