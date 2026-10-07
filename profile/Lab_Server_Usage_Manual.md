@@ -2,13 +2,13 @@
 
 **Admins:** Clifton Lewis, M. Eleonora Rossi, Niño Posadas
 
-**Status:** Living document — the server was recently rebuilt and policies will keep evolving as people start using it. If something here is wrong, out of date, or you have a suggestion, tell me about so this doc can be updated. Bear in mind I'm not an IT admin I'm just learning all of this myself too.
+**Status:** Living document — the server was recently rebuilt and policies will keep evolving as people start using it. If something here is wrong, out of date, or you have a suggestion, tell me about it so this doc can be updated. Bear in mind I'm not an IT admin, I'm just learning all of this myself too.
 
 Before using the lab server, please make sure you are comfortable using a linux system as we do not want to cause issues for other people and their data.
 
 Ask for advice and suggestions if you aren't sure.
 
-A good refernce book is ["Practical computing for biologists" by Haddock and Dunn (2011)](https://practicalcomputing.org/index.html).
+A good reference book is ["Practical computing for biologists" by Haddock and Dunn (2011)](https://practicalcomputing.org/index.html).
 
 Another good reference cheat sheet is [BASH Cheat Sheet](https://linuxstans.com/bash-cheat-sheet/).
 **Last revised:** 2026-10-07
@@ -20,7 +20,7 @@ Another good reference cheat sheet is [BASH Cheat Sheet](https://linuxstans.com/
 The lab HPC server ("evolution") was recently rebuilt from scratch. All drives were reformatted, so **nothing from before this rebuild still exists** — if you had data on the old system, it is gone unless it was backed up elsewhere.
 
 The server has:
-- 48 CPUs / ~1TB RAM (see partition limits in [Section 6](#6-slurm-job-scheduler))
+- 48 CPUs / ~1TB RAM (see partition limits in [Section 5](#5-slurm-job-scheduler))
 - Two fast NVMe SSD drives (3.7TB each) for the OS, home directories, and scratch
 - One larger 12TB HDD (slower, split into two 5.5TB volumes) for longer-term project storage
 - Slurm for job scheduling and queueing
@@ -69,6 +69,7 @@ You can access your `home` directory like this:
 ```bash
 cd /home/$USER
 ```
+
 ### 3.2 Scratch (`/scratch/<username>`)
 This is where **active analysis should actually run**. It's on the fast NVMe drive, so it handles the heavy read/write that pipelines generate far better than the HDD storage does.
 
@@ -77,7 +78,7 @@ You can access the `scratch` directory like this:
 cd /scratch/$USER
 ```
 
-**Scratch is purged periodically.** It is *not* permanent storage — treat it as a fast workbench, not an archive. Move finished results to `/mnt/hpc_projects_1` or `/mnt/hpc_projects_2` once a run is done. Explained more below.
+**Scratch is purged periodically.** It is *not* permanent storage — treat it as a fast workbench, not an archive. Move finished results to `/mnt/hpc_projects_1` or `/mnt/hpc_projects_2` once a run is done — see [Section 3.3](#33-long-term-project-storage-mnthpc_projects_1-and-mnthpc_projects_2).
 
 ### 3.3 Long-term project storage (`/mnt/hpc_projects_1` and `/mnt/hpc_projects_2`)
 Two 5.5TB partitions carved out of the single 12TB HDD. Slower than scratch, but this is where finished results, reference databases, and anything you need to keep for the longer term should live.
@@ -88,7 +89,7 @@ cd /mnt/hpc_projects_1/$USER
 cd /mnt/hpc_projects_2/$USER
 ```
 
-Shared reference data (e.g. BLAST databases) is also kept here so everyone can point their jobs at one copy instead of duplicating it — see the `BLAST_DB_DIR` example in the Slurm template ([Section 6.4](#64-submission-template-walkthrough)).
+Shared reference data (e.g. BLAST databases) is also kept here so everyone can point their jobs at one copy instead of duplicating it — see the `BLAST_DB_DIR` example in the Slurm template ([Section 5.4](#54-submission-template-walkthrough)).
 
 ### 3.4 Shared scratch folder — `/scratch/shared`
 
@@ -177,7 +178,7 @@ Copy it into your working directory, edit the fields below, and submit with `sba
 3. **Time limit** — `--time=HH:MM:SS` or `DD-HH:MM:SS`. The job is killed if it hits this wall-clock limit, so pad it a bit, but don't wildly overshoot (it affects queuing/fair-share).
 4. **CPUs & memory** — `--cpus-per-task` and `--mem`. **If you leave `--mem` blank, you're automatically defaulted to 200GB** — set it explicitly if your job needs less, so you're not holding memory hostage from other users.
 5. **Email notifications (optional but heavily recommended)** — uncomment `--mail-type` and `--mail-user` to get an email when a job ends or fails.
-6. **Pipeline body** — always `cd` into your scratch directory (`/scratch/$USER`) for the actual read/write work, and reference shared reference databases (e.g. BLAST DBs) from `/mnt/hpc_projects_1/databases/...` rather than copying them locally.
+6. **Pipeline body** — always `cd` into your scratch directory (`/scratch/$USER`) for the actual read/write work, and point jobs at shared reference databases (e.g. BLAST DBs) from `/mnt/hpc_projects_1/databases/...` rather than copying them locally.
 
 Minimal example:
 
@@ -202,12 +203,12 @@ blastn -query input.fasta -db /mnt/hpc_projects_1/databases/blast/nt \
 
 ## 6. Containers (Apptainer)
 
-Apptainer is installed, so Docker and Singularity container images can be used directly without needing Docker itself (which typically isn't appropriate on a shared multi-user HPC node).
+Apptainer is installed, so Docker and Singularity container images can be used directly without running a Docker daemon (which typically isn't appropriate on a shared multi-user HPC node).
 
-> ```bash
-> apptainer pull docker://some/image:tag
-> apptainer exec my_image.sif my_command --args
-> ```
+```bash
+apptainer pull docker://some/image:tag
+apptainer exec my_image.sif my_command --args
+```
 
 ---
 
@@ -224,9 +225,11 @@ Apptainer is installed, so Docker and Singularity container images can be used d
 
 ## 8. Getting Help / Giving Feedback
 
-This system is new and still being tuned as real workloads hit it. If you:
+This system is new and still being tuned as real workloads hit it. Please tell me if you:
 - hit a wall you don't understand (permissions, quotas, job failures),
 - think a partition limit, memory default, or purge policy should change, or
-- have suggestions for how this manual or the setup could be improved, tell me please. Policies here (purge timing, partition limits, `max` access) are expected to be adjusted as actual usage patterns become clear.
+- have suggestions for how this manual or the setup could be improved.
+
+Policies here (purge timing, partition limits, `max` access) are expected to be adjusted as actual usage patterns become clear.
 
 :)
