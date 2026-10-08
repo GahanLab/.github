@@ -11,7 +11,8 @@ Ask for advice and suggestions if you aren't sure.
 A good reference book is ["Practical computing for biologists" by Haddock and Dunn (2011)](https://practicalcomputing.org/index.html).
 
 Another good reference cheat sheet is [BASH Cheat Sheet](https://linuxstans.com/bash-cheat-sheet/).
-**Last revised:** 2026-10-07
+
+**Last revised:** 2026-10-08
 
 ---
 
@@ -174,45 +175,73 @@ A ready-to-copy template lives at:
 Copy it into your working directory, edit the fields below, and submit with `sbatch filename.sbatch`.
 
 1. **Job name & logs** — `--job-name`, `--output`, `--error`. `%j` in a filename is replaced with the job's unique Slurm ID, so logs from different runs don't overwrite each other.
-2. **Partition** — pick from the table in [5.1](#51-partitions-queues). Defaults to `short` if omitted.
-3. **Time limit** — `--time=HH:MM:SS` or `DD-HH:MM:SS`. The job is killed if it hits this wall-clock limit, so pad it a bit, but don't wildly overshoot (it affects queuing/fair-share).
-4. **CPUs & memory** — `--cpus-per-task` and `--mem`. **If you leave `--mem` blank, you're automatically defaulted to 200GB** — set it explicitly if your job needs less, so you're not holding memory hostage from other users.
-5. **Email notifications (optional but heavily recommended)** — uncomment `--mail-type` and `--mail-user` to get an email when a job ends or fails.
-6. **Pipeline body** — always `cd` into your scratch directory (`/scratch/$USER`) for the actual read/write work, and point jobs at shared reference databases (e.g. BLAST DBs) from `/mnt/hpc_projects_1/databases/...` rather than copying them locally.
+2. **Account** — `--account=<your_username>`. Required so usage is tracked against the right account for fair-share.
+3. **Partition** — pick from the table in [5.1](#51-partitions-queues). Defaults to `short` if omitted.
+4. **Time limit** — `--time=HH:MM:SS` or `DD-HH:MM:SS`. The job is killed if it hits this wall-clock limit, so pad it a bit, but don't wildly overshoot (it affects queuing/fair-share).
+5. **CPUs & memory** — `--cpus-per-task` and `--mem`. **If you leave `--mem` blank, you're automatically defaulted to 200GB** — set it explicitly if your job needs less, so you're not holding memory hostage from other users.
+6. **Email notifications (optional but heavily recommended)** — uncomment `--mail-type` and `--mail-user` to get an email when a job ends or fails.
+7. **Conda environment** — load and activate conda (see [Section 6](#6-conda-environments)) before calling any tools that live in your environment.
+8. **Pipeline body** — always `cd` into your scratch directory (`/scratch/$USER`) for the actual read/write work, and point jobs at shared reference databases (e.g. BLAST DBs) from `/mnt/hpc_projects_1/databases/...` rather than copying them locally.
 
 Minimal example:
 
 ```bash
 #!/bin/bash
-#SBATCH --job-name=my_analysis
-#SBATCH --output=job_%j.out
-#SBATCH --error=job_%j.err
-#SBATCH --partition=short
-#SBATCH --time=12:00:00
-#SBATCH --cpus-per-task=8
-#SBATCH --mem=32G
+#SBATCH --job-name=my_analysis         # name shown in squeue
+#SBATCH --output=job_%j.out            # stdout log, %j = job ID
+#SBATCH --error=job_%j.err             # stderr log, %j = job ID
+#SBATCH --account=my_username          # your account, for fair-share tracking
+#SBATCH --partition=short              # queue to submit to, see 5.1
+#SBATCH --time=12:00:00                # walltime limit, HH:MM:SS
+#SBATCH --cpus-per-task=8              # CPU cores requested
+#SBATCH --mem=32G                      # memory requested, set explicitly
 
-WORK_DIR="/scratch/${USER}"
-cd $WORK_DIR
+module load conda/3.0                  # make conda available in this shell
+source /opt/conda/etc/profile.d/conda.sh  # initialize conda for this shell
+conda activate rnaseq                  # activate your environment
+
+WORK_DIR="/scratch/${USER}"            # fast scratch dir for this job's I/O
+cd $WORK_DIR                           # move into it before running anything
 
 blastn -query input.fasta -db /mnt/hpc_projects_1/databases/blast/nt \
-  -num_threads ${SLURM_CPUS_PER_TASK} -out results.txt
+  -num_threads ${SLURM_CPUS_PER_TASK} -out results.txt  # actual pipeline step
 ```
 
 ---
 
-## 6. Containers (Apptainer)
+## 6. Conda Environments
+
+Conda isn't available by default in the shell — it's provided as a module and needs to be loaded and initialized before you can activate an environment.
+
+```bash
+module load conda/3.0
+source /opt/conda/etc/profile.d/conda.sh
+conda activate <env_name>
+```
+
+- `module load conda/3.0` — makes the conda installation available in your shell.
+- `source /opt/conda/etc/profile.d/conda.sh` — initialises conda for the current shell session (needed before `conda activate` will work).
+- `conda activate <env_name>` — activates your environment, e.g. `conda activate rnaseq`.
+
+If you're running conda inside a Slurm job script, add these same three lines near the top of your `.sbatch` / `.sh` file (after the `#SBATCH` directives) before calling any tools from that environment.
+
+---
+
+## 7. Containers (Apptainer)
 
 Apptainer is installed, so Docker and Singularity container images can be used directly without running a Docker daemon (which typically isn't appropriate on a shared multi-user HPC node).
 
+Like conda, Apptainer is provided as a module and needs to be loaded first:
+
 ```bash
+module load apptainer
 apptainer pull docker://some/image:tag
 apptainer exec my_image.sif my_command --args
 ```
 
 ---
 
-## 7. Good Rules on a Shared Server
+## 8. Good Rules on a Shared Server
 
 - **Run jobs through Slurm, not the login node.** Heavy work directly on the shell slows the server down for everyone.
 - **Do your heavy I/O in `/scratch/$USER`**, not on `/mnt/hpc_projects_*` — the HDD volumes are noticeably slower for active read/write.
@@ -223,7 +252,7 @@ apptainer exec my_image.sif my_command --args
 
 ---
 
-## 8. Getting Help / Giving Feedback
+## 9. Getting Help / Giving Feedback
 
 This system is new and still being tuned as real workloads hit it. Please tell me if you:
 - hit a wall you don't understand (permissions, quotas, job failures),
