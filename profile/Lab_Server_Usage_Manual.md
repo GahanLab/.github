@@ -139,7 +139,7 @@ Jobs are routed through partitions based on how long they'll run and how many co
 | `short` | 24:00:00 | 20 | 80GB | **Default** if you don't specify a partition |
 | `short-multicore` | 24:00:00 | 40 | 200GB | Same time limit, more cores/memory |
 | `medium` | 7 days | 20 | 500GB | |
-| `medium-multicore` | 7 days | 40 | 600GB | |
+| `medium-multicore` | 7 days | 40 | 800GB | |
 | `long` | 2 months | 20 | 600GB | |
 | `long-multicore` | 2 months | 40 | 850GB | Same cap, more cores/memory |
 | `max` | Infinite | 48 | 950GB | **Requires admin approval** — restricted to `root` and the `hpc_max_users` group |
